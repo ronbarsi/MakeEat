@@ -1,5 +1,5 @@
-from src.router import app
-from src.database.setup import db_startup
+from src.app.router import app
+from src.app.database.setup import db_startup
 
 
 if __name__ == '__main__':

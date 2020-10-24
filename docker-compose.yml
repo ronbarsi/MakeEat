@@ -4,10 +4,10 @@ services:
   mydb:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: 'db'
+      MYSQL_DATABASE: 'makeEat'
       MYSQL_ROOT_PASSWORD: 'pp'
     ports:
-      - 3308:3306
+      - 3333:3306
 
   make-eat:
     build: .

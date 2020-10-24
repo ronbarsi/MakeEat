@@ -1,13 +1,12 @@
-import sys
 import mysql.connector
 import time
 
 DB = None
-DB_name = "db.users"
+users_table = "makeEat.users"
 MAX_RETRIES = 40
 
 TABLE_DESCRIPTION = (
-    f"CREATE TABLE IF NOT EXISTS {DB_name} ("
+    f"CREATE TABLE IF NOT EXISTS {users_table} ("
     "  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,"
     "  `name` varchar(50) not null,"
     "  `email` varchar(120) not null,"
@@ -20,13 +19,13 @@ TABLE_DESCRIPTION = (
 
 def init_db():
     """
-    Connect to MySql DB and create "posts" table
+    Connect to MySql DB and create "users" table
     :return:
     """
     mydb = mysql.connector.connect(
         host="mydb",
         port="3306",
-        database="db",
+        database="makeEat",
         user="root",
         password="pp",
         auth_plugin='mysql_native_password'
@@ -35,9 +34,9 @@ def init_db():
     cursor = mydb.cursor()
 
     try:
-        print("Creating table posts:")
+        print(f"Creating table {users_table}:")
         cursor.execute(TABLE_DESCRIPTION)
-        print("Table posts created successfully.")
+        print(f"Table {users_table} created successfully.")
     except mysql.connector.Error as err:
         print(err.msg)
         raise err
@@ -61,16 +60,5 @@ def db_startup():
         raise Exception("FAILURE: DB Connection took too long")
 
 
-def execute_command(command):
-    print(f"executing: {command}", file=sys.stderr)
-    cursor = DB.cursor()
-    cursor.execute(command)
-    return cursor
-
-
-def execute_and_fetch(command):
-    cursor = execute_command(command)
-    results = cursor.fetchall()
-    print(f"query 5 first results: {results[:5]}", file=sys.stderr)
-    return results
-
+def get_db():
+    return DB
